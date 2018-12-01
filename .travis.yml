@@ -12,6 +12,9 @@ jobs:
     - stage: "Credo"
       name: "Credo"
       script: mix credo
+    - stage: "Dialyxir"
+      name: "Dialyxir"
+      script: mix dialyzer --format dialyxir
     - stage: "Tests"
       name: "Unit Tests"
       script: mix test
