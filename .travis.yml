@@ -9,6 +9,9 @@ jobs:
     - stage: "Formatter"
       name: "Formatter"
       script: mix format --check-formatted --check-equivalent
+    - stage: "Credo"
+      name: "Credo"
+      script: mix credo
     - stage: "Tests"
       name: "Unit Tests"
       script: mix test
