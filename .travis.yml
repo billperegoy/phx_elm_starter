@@ -6,6 +6,9 @@ otp_release:
 
 jobs:
   include:
+    - stage: "Formatter"
+      name: "Formatter"
+      script: mix format --check-formatted --check-equivalent
     - stage: "Tests"
       name: "Unit Tests"
       script: mix test
