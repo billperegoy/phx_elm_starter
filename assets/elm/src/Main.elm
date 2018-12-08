@@ -2,8 +2,8 @@ module Main exposing (..)
 
 import Browser
 import Browser.Navigation
-import Html exposing (Html, text, div, h1, img)
-import Html.Attributes exposing (src)
+import Html exposing (Html, a, text, div, h1, img)
+import Html.Attributes exposing (href)
 import Url
 
 
@@ -41,8 +41,9 @@ document model =
     { title = "Page title"
     , body =
         [ div []
-            [ img [ src "/images/logo.svg" ] []
-            , h1 [] [ text "Your Elm App is working!" ]
+            [ h1 [] [ text "Your Elm App is working!" ]
+            , div [] [ a [ href "/about" ] [ text "About" ] ]
+            , div [] [ a [ href "/contact" ] [ text "Contact" ] ]
             ]
         ]
     }
