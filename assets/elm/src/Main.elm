@@ -12,8 +12,8 @@ type alias Model =
     {}
 
 
-init : ( Model, Cmd Msg )
-init =
+init : () -> ( Model, Cmd Msg )
+init _ =
     ( {}, Cmd.none )
 
 
@@ -54,7 +54,7 @@ main : Program () Model Msg
 main =
     Browser.document
         { view = document
-        , init = \_ -> init
+        , init = init
         , update = update
         , subscriptions = always Sub.none
         }
