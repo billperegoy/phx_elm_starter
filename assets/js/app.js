@@ -15,3 +15,7 @@ import "phoenix_html"
 //
 // Local files can be imported directly using relative paths, for example:
 // import socket from "./socket"
+import Elm from "../elm/src/Main.elm"
+
+const elmDiv = document.getElementById("elm-main");
+Elm.Elm.Main.init({node: elmDiv});

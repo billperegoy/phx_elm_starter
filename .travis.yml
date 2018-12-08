@@ -3,7 +3,6 @@ elixir:
   - '1.7.4'
 otp_release:
   - '21.1'
-
 jobs:
   include:
     - stage: "Formatter"
@@ -15,6 +14,7 @@ jobs:
     - stage: "Dialyxir"
       name: "Dialyxir"
       script: mix dialyzer --format dialyxir
-    - stage: "Tests"
+    - stage: "Elixir Tests"
       name: "Unit Tests"
       script: mix test
+
