@@ -11,7 +11,7 @@ defmodule PhxElmStarter.MixProject do
       start_permanent: Mix.env() == :prod,
       aliases: aliases(),
       deps: deps(),
-      dialyzer: [plt_add_deps: :transitive, plt_add_deps: :project],
+      dialyzer: [plt_file: {:no_warn, "priv/plts/eventstore.plt"}, plt_add_deps: :app_tree],
       test_coverage: [tool: ExCoveralls],
       preferred_cli_env: [
         coveralls: :test,
