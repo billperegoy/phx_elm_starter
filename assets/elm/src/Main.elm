@@ -1,8 +1,10 @@
 module Main exposing (..)
 
 import Browser
+import Browser.Navigation
 import Html exposing (Html, text, div, h1, img)
 import Html.Attributes exposing (src)
+import Url
 
 
 ---- MODEL ----
@@ -12,8 +14,8 @@ type alias Model =
     {}
 
 
-init : () -> ( Model, Cmd Msg )
-init _ =
+init : () -> Url.Url -> Browser.Navigation.Key -> ( Model, Cmd Msg )
+init _ _ _ =
     ( {}, Cmd.none )
 
 
@@ -46,15 +48,27 @@ document model =
     }
 
 
+onUrlChange : Url.Url -> Msg
+onUrlChange _ =
+    NoOp
+
+
+onUrlRequest : Browser.UrlRequest -> Msg
+onUrlRequest _ =
+    NoOp
+
+
 
 ---- PROGRAM ----
 
 
 main : Program () Model Msg
 main =
-    Browser.document
+    Browser.application
         { view = document
         , init = init
         , update = update
         , subscriptions = always Sub.none
+        , onUrlChange = onUrlChange
+        , onUrlRequest = onUrlRequest
         }
