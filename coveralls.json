@@ -1,0 +1,8 @@
+{
+  "skip_files": [
+    "test"
+  ],
+  "coverage_options": {
+    "mimimum_coverage": 45
+  }
+}
