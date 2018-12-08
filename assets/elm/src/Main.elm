@@ -34,12 +34,16 @@ update msg model =
 ---- VIEW ----
 
 
-view : Model -> Html Msg
-view model =
-    div []
-        [ img [ src "/images/logo.svg" ] []
-        , h1 [] [ text "Your Elm App is working!" ]
+document : Model -> Browser.Document Msg
+document model =
+    { title = "Page title"
+    , body =
+        [ div []
+            [ img [ src "/images/logo.svg" ] []
+            , h1 [] [ text "Your Elm App is working!" ]
+            ]
         ]
+    }
 
 
 
@@ -48,8 +52,8 @@ view model =
 
 main : Program () Model Msg
 main =
-    Browser.element
-        { view = view
+    Browser.document
+        { view = document
         , init = \_ -> init
         , update = update
         , subscriptions = always Sub.none
