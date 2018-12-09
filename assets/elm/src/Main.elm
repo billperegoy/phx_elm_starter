@@ -12,14 +12,14 @@ import Url
 
 type alias Model =
     { currentUrl : Url.Url
-    , key : Browser.Navigation.Key
+    , navigationKey : Browser.Navigation.Key
     }
 
 
 init : () -> Url.Url -> Browser.Navigation.Key -> ( Model, Cmd Msg )
-init _ url key =
+init _ url navigationKey =
     ( { currentUrl = url
-      , key = key
+      , navigationKey = navigationKey
       }
     , Cmd.none
     )
@@ -30,16 +30,16 @@ init _ url key =
 
 
 type Msg
-    = ClickedLink Browser.UrlRequest
+    = ClickLink Browser.UrlRequest
     | UpdateUrl Url.Url
 
 
 update : Msg -> Model -> ( Model, Cmd Msg )
 update msg model =
     case msg of
-        ClickedLink urlRequest ->
+        ClickLink urlRequest ->
             ( model
-            , urlRequestEffect model.key urlRequest
+            , urlRequestEffect model.navigationKey urlRequest
             )
 
         UpdateUrl url ->
@@ -49,10 +49,10 @@ update msg model =
 
 
 urlRequestEffect : Browser.Navigation.Key -> Browser.UrlRequest -> Cmd Msg
-urlRequestEffect key urlRequest =
+urlRequestEffect navigationKey urlRequest =
     case urlRequest of
         Browser.Internal url ->
-            Browser.Navigation.pushUrl key (Url.toString url)
+            Browser.Navigation.pushUrl navigationKey (Url.toString url)
 
         Browser.External url ->
             Browser.Navigation.load url
@@ -65,7 +65,7 @@ onUrlChange url =
 
 onUrlRequest : Browser.UrlRequest -> Msg
 onUrlRequest urlRequest =
-    ClickedLink urlRequest
+    ClickLink urlRequest
 
 
 
