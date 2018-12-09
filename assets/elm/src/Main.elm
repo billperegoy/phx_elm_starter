@@ -59,6 +59,16 @@ update msg model =
             )
 
 
+onUrlChange : Url.Url -> Msg
+onUrlChange url =
+    UpdateUrl url
+
+
+onUrlRequest : Browser.UrlRequest -> Msg
+onUrlRequest urlRequest =
+    ClickedLink urlRequest
+
+
 
 ---- VIEW ----
 
@@ -97,16 +107,6 @@ pageContent url =
                     "unknown page"
     in
         h2 [] [ text pageText ]
-
-
-onUrlChange : Url.Url -> Msg
-onUrlChange url =
-    UpdateUrl url
-
-
-onUrlRequest : Browser.UrlRequest -> Msg
-onUrlRequest urlRequest =
-    ClickedLink urlRequest
 
 
 
