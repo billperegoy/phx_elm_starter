@@ -11,12 +11,15 @@ import Url
 
 
 type alias Model =
-    { currentUrl : Url.Url }
+    { currentUrl : Url.Url
+    , key : Browser.Navigation.Key
+    }
 
 
 init : () -> Url.Url -> Browser.Navigation.Key -> ( Model, Cmd Msg )
-init _ url _ =
+init _ url key =
     ( { currentUrl = url
+      , key = key
       }
     , Cmd.none
     )
@@ -28,6 +31,7 @@ init _ url _ =
 
 type Msg
     = NoOp
+    | ClickedLink Browser.UrlRequest
     | UpdateUrl Url.Url
 
 
@@ -37,8 +41,22 @@ update msg model =
         NoOp ->
             ( model, Cmd.none )
 
+        ClickedLink urlRequest ->
+            case urlRequest of
+                Browser.Internal url ->
+                    ( model
+                    , Browser.Navigation.pushUrl model.key (Url.toString url)
+                    )
+
+                Browser.External url ->
+                    ( model
+                    , Browser.Navigation.load url
+                    )
+
         UpdateUrl url ->
-            ( model, Cmd.none )
+            ( { model | currentUrl = url }
+            , Cmd.none
+            )
 
 
 
@@ -51,8 +69,10 @@ document model =
     , body =
         [ div []
             [ h1 [] [ text "Your Elm App is working!" ]
+            , div [] [ a [ href "/" ] [ text "Home" ] ]
             , div [] [ a [ href "/about" ] [ text "About" ] ]
             , div [] [ a [ href "/contact" ] [ text "Contact" ] ]
+            , div [] [ a [ href "https://guide.elm-lang.org/" ] [ text "External" ] ]
             , pageContent model.currentUrl
             ]
         ]
@@ -61,7 +81,22 @@ document model =
 
 pageContent : Url.Url -> Html Msg
 pageContent url =
-    h2 [] [ text "My page" ]
+    let
+        pageText =
+            case url.path of
+                "/" ->
+                    "main page"
+
+                "/about" ->
+                    "about page"
+
+                "/contact" ->
+                    "contact page"
+
+                _ ->
+                    "unknown page"
+    in
+        h2 [] [ text pageText ]
 
 
 onUrlChange : Url.Url -> Msg
@@ -70,8 +105,8 @@ onUrlChange url =
 
 
 onUrlRequest : Browser.UrlRequest -> Msg
-onUrlRequest _ =
-    NoOp
+onUrlRequest urlRequest =
+    ClickedLink urlRequest
 
 
 
