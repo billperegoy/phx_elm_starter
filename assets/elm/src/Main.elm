@@ -2,8 +2,8 @@ module Main exposing (..)
 
 import Browser
 import Browser.Navigation
-import Html exposing (Html, a, text, div, h1, h2)
-import Html.Attributes exposing (href)
+import Html exposing (..)
+import Html.Attributes exposing (..)
 import Url
 
 
@@ -75,20 +75,43 @@ onUrlRequest urlRequest =
 document : Model -> Browser.Document Msg
 document model =
     let
-        content =
+        page =
             pageContent model.currentUrl
     in
-        { title = content.title
+        { title = page.title
         , body =
-            [ div []
-                [ div [] [ a [ href "/" ] [ text "Home" ] ]
-                , div [] [ a [ href "/about" ] [ text "About" ] ]
-                , div [] [ a [ href "/contact" ] [ text "Contact" ] ]
-                , div [] [ a [ href "https://guide.elm-lang.org/" ] [ text "External" ] ]
-                , h2 [] [ text content.content ]
+            [ div
+                [ style "margin-left" "100px"
+                , style "margin-righ" "100px"
+                ]
+                [ menu
+                , h2 [] [ text page.content ]
                 ]
             ]
         }
+
+
+menu : Html Msg
+menu =
+    div []
+        [ menuElement "/" "Home"
+        , menuElement "/about" "About"
+        , menuElement "/contact" "Contact"
+        , menuElement "https://guide.elm-lang.org" "External"
+        ]
+
+
+menuElement : String -> String -> Html Msg
+menuElement url string =
+    span menuElementStyle
+        [ a [ href url ] [ text string ] ]
+
+
+menuElementStyle : List (Html.Attribute Msg)
+menuElementStyle =
+    [ style "margin-right" "15px"
+    , style "font-size" "2em"
+    ]
 
 
 pageContent : Url.Url -> { title : String, content : String }
