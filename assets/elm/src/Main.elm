@@ -74,38 +74,37 @@ onUrlRequest urlRequest =
 
 document : Model -> Browser.Document Msg
 document model =
-    { title = "Page title"
-    , body =
-        [ div []
-            [ h1 [] [ text "Your Elm App is working!" ]
-            , div [] [ a [ href "/" ] [ text "Home" ] ]
-            , div [] [ a [ href "/about" ] [ text "About" ] ]
-            , div [] [ a [ href "/contact" ] [ text "Contact" ] ]
-            , div [] [ a [ href "https://guide.elm-lang.org/" ] [ text "External" ] ]
-            , pageContent model.currentUrl
-            ]
-        ]
-    }
-
-
-pageContent : Url.Url -> Html Msg
-pageContent url =
     let
-        pageText =
-            case url.path of
-                "/" ->
-                    "main page"
-
-                "/about" ->
-                    "about page"
-
-                "/contact" ->
-                    "contact page"
-
-                _ ->
-                    "unknown page"
+        content =
+            pageContent model.currentUrl
     in
-        h2 [] [ text pageText ]
+        { title = content.title
+        , body =
+            [ div []
+                [ div [] [ a [ href "/" ] [ text "Home" ] ]
+                , div [] [ a [ href "/about" ] [ text "About" ] ]
+                , div [] [ a [ href "/contact" ] [ text "Contact" ] ]
+                , div [] [ a [ href "https://guide.elm-lang.org/" ] [ text "External" ] ]
+                , h2 [] [ text content.content ]
+                ]
+            ]
+        }
+
+
+pageContent : Url.Url -> { title : String, content : String }
+pageContent url =
+    case url.path of
+        "/" ->
+            { title = "Home", content = "main page" }
+
+        "/about" ->
+            { title = "About", content = "about page" }
+
+        "/contact" ->
+            { title = "Contact", content = "contact page" }
+
+        _ ->
+            { title = "Unknown", content = "unknown page" }
 
 
 
