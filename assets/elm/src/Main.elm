@@ -30,33 +30,32 @@ init _ url key =
 
 
 type Msg
-    = NoOp
-    | ClickedLink Browser.UrlRequest
+    = ClickedLink Browser.UrlRequest
     | UpdateUrl Url.Url
 
 
 update : Msg -> Model -> ( Model, Cmd Msg )
 update msg model =
     case msg of
-        NoOp ->
-            ( model, Cmd.none )
-
         ClickedLink urlRequest ->
-            case urlRequest of
-                Browser.Internal url ->
-                    ( model
-                    , Browser.Navigation.pushUrl model.key (Url.toString url)
-                    )
-
-                Browser.External url ->
-                    ( model
-                    , Browser.Navigation.load url
-                    )
+            ( model
+            , urlRequestEffect model.key urlRequest
+            )
 
         UpdateUrl url ->
             ( { model | currentUrl = url }
             , Cmd.none
             )
+
+
+urlRequestEffect : Browser.Navigation.Key -> Browser.UrlRequest -> Cmd Msg
+urlRequestEffect key urlRequest =
+    case urlRequest of
+        Browser.Internal url ->
+            Browser.Navigation.pushUrl key (Url.toString url)
+
+        Browser.External url ->
+            Browser.Navigation.load url
 
 
 onUrlChange : Url.Url -> Msg
