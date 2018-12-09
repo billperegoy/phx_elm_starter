@@ -2,7 +2,7 @@ module Main exposing (..)
 
 import Browser
 import Browser.Navigation
-import Html exposing (Html, a, text, div, h1, img)
+import Html exposing (Html, a, text, div, h1, h2)
 import Html.Attributes exposing (href)
 import Url
 
@@ -11,12 +11,15 @@ import Url
 
 
 type alias Model =
-    {}
+    { currentUrl : Url.Url }
 
 
 init : () -> Url.Url -> Browser.Navigation.Key -> ( Model, Cmd Msg )
-init _ _ _ =
-    ( {}, Cmd.none )
+init _ url _ =
+    ( { currentUrl = url
+      }
+    , Cmd.none
+    )
 
 
 
@@ -25,11 +28,17 @@ init _ _ _ =
 
 type Msg
     = NoOp
+    | UpdateUrl Url.Url
 
 
 update : Msg -> Model -> ( Model, Cmd Msg )
 update msg model =
-    ( model, Cmd.none )
+    case msg of
+        NoOp ->
+            ( model, Cmd.none )
+
+        UpdateUrl url ->
+            ( model, Cmd.none )
 
 
 
@@ -44,14 +53,20 @@ document model =
             [ h1 [] [ text "Your Elm App is working!" ]
             , div [] [ a [ href "/about" ] [ text "About" ] ]
             , div [] [ a [ href "/contact" ] [ text "Contact" ] ]
+            , pageContent model.currentUrl
             ]
         ]
     }
 
 
+pageContent : Url.Url -> Html Msg
+pageContent url =
+    h2 [] [ text "My page" ]
+
+
 onUrlChange : Url.Url -> Msg
-onUrlChange _ =
-    NoOp
+onUrlChange url =
+    UpdateUrl url
 
 
 onUrlRequest : Browser.UrlRequest -> Msg
