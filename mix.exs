@@ -34,7 +34,7 @@ defmodule PhxElmStarter.MixProject do
 
   # Specifies which paths to compile per environment.
   defp elixirc_paths(:test), do: ["lib", "test/support"]
-  defp elixirc_paths(_), do: ["lib"]
+  defp elixirc_paths(_), do: ["lib", "priv/tasks"]
 
   # Specifies your project dependencies.
   #
@@ -53,7 +53,8 @@ defmodule PhxElmStarter.MixProject do
       {:plug_cowboy, "~> 2.0"},
       {:credo, "~> 1.0.0", only: [:dev, :test], runtime: false},
       {:dialyxir, "~> 1.0.0-rc.4", only: [:dev], runtime: false},
-      {:excoveralls, "~> 0.10", only: :test}
+      {:excoveralls, "~> 0.10", only: :test},
+      {:distillery, "~> 2.0", runtime: false}
     ]
   end
 
